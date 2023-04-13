@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "EDAC3410-118B-4F42-875D-4884D03E3F61",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "APIKitTests",
+        "name" : "APIKitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
