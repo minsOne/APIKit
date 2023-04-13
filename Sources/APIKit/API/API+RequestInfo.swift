@@ -9,15 +9,12 @@ import Foundation
 
 public extension API {
     struct RequestInfo<T: Parameterable> {
-        var method: Method
         var headers: [String: String]?
         var parameters: T?
 
-        public init(method: API.Method,
-                    headers: [String: String]? = nil,
+        public init(headers: [String: String]? = nil,
                     parameters: T? = nil)
         {
-            self.method = method
             self.headers = headers
             self.parameters = parameters
         }
@@ -25,7 +22,7 @@ public extension API {
 }
 
 extension API.RequestInfo {
-    func requests(url: URL) -> URLRequest {
+    func requests(url: URL, method: URLMethod) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.httpBody = parameters?

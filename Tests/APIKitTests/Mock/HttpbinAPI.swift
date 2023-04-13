@@ -18,12 +18,11 @@ enum HTTPBin {}
 
 extension HTTPBin {
     struct Get: APIDefinition {
-        let urlInfo: URLInfo
-        let requestInfo: RequestInfo<EmptyParameter> = .init(method: .get)
+        let urlInfo: URLInfo = .HTTPBin(path: "/get")
+        let requestInfo = RequestInfo<EmptyParameter>()
+        let method: URLMethod = .get
 
-        init() {
-            self.urlInfo = .HTTPBin(path: "/get")
-        }
+        init() {}
 
         struct Response: Decodable {
             let args: [String: String]
@@ -36,17 +35,18 @@ extension HTTPBin {
 
 extension HTTPBin {
     struct Post: APIDefinition {
-        let urlInfo: URLInfo
+        let urlInfo: URLInfo = .HTTPBin(path: "/post")
         let requestInfo: RequestInfo<Parameter>
+        let method: URLMethod = .post
 
         init(parameter: Parameter) {
-            self.urlInfo = .HTTPBin(path: "/post")
-            self.requestInfo = .init(method: .post, parameters: parameter)
+            self.requestInfo = .init(parameters: parameter)
         }
 
         struct Parameter: Parameterable {
             let name: String
             let age: String
+
             init(name: String, age: String) {
                 self.name = name
                 self.age = age

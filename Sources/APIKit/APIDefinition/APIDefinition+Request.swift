@@ -12,7 +12,7 @@ public extension APIDefinition {
     @discardableResult
     func request(completion: @escaping ((Result<Response, APIError>) -> Void)) -> URLSessionDataTask {
         let url = urlInfo.url
-        let request = requestInfo.requests(url: url)
+        let request = requestInfo.requests(url: url, method: method)
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
 
