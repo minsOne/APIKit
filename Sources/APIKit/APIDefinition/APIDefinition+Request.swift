@@ -11,37 +11,10 @@ import Foundation
 public extension APIDefinition {
     @discardableResult
     func request(completion: @escaping ((Result<Response, APIError>) -> Void)) -> URLSessionDataTask {
-        let url = urlInfo.url
-        let request = requestInfo.requests(url: url, method: method)
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
+        let service = URLSessionService()
 
-#if DEBUG
-        print(request.cURL())
-#endif
-
-        let dataTask = session.dataTask(with: request) { data, _, error in
-            if let error {
-                completion(.failure(.error(error)))
-                return
-            }
-
-            guard let data else {
-                completion(.failure(.emptyResponse))
-                return
-            }
-
-            do {
-                let response = try JSONDecoder().decode(Response.self, from: data)
-                completion(.success(response))
-            } catch {
-                completion(.failure(.error(error)))
-            }
-        }
-
-        dataTask.resume()
-
-        return dataTask
+        return request(service: service,
+                completion: completion)
     }
 }
 
@@ -52,5 +25,19 @@ public extension APIDefinition {
                 continuation.resume(returning: $0)
             })
         }
+    }
+}
+
+internal extension APIDefinition {
+    func request(service: URLSessionServicable,
+                 completion: @escaping ((Result<Response, APIError>) -> Void)) -> URLSessionDataTask {
+        let url = urlInfo.url
+        let request = requestInfo.requests(url: url, method: method)
+        
+#if DEBUG
+        print(request.cURL())
+#endif
+        return service.request(request: request,
+                               completion: completion)
     }
 }
