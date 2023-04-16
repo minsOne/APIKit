@@ -17,4 +17,8 @@ public protocol APIDefinition {
     var urlInfo: URLInfo { get }
     var requestInfo: RequestInfo<Parameter> { get }
     var method: URLMethod { get }
+
+    @discardableResult
+    func request(completion: @escaping ((Result<Response, APIError>) -> Void)) -> URLSessionDataTask
+    func request() async -> Result<Response, APIError>
 }

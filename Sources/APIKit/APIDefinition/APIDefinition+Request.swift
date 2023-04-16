@@ -11,10 +11,7 @@ import Foundation
 public extension APIDefinition {
     @discardableResult
     func request(completion: @escaping ((Result<Response, APIError>) -> Void)) -> URLSessionDataTask {
-        let service = URLSessionService()
-
-        return request(service: service,
-                completion: completion)
+        return _request(completion: completion)
     }
 }
 
@@ -29,14 +26,15 @@ public extension APIDefinition {
 }
 
 internal extension APIDefinition {
-    func request(service: URLSessionServicable,
+    func _request(service: URLSessionServicable = URLSessionService(),
                  completion: @escaping ((Result<Response, APIError>) -> Void)) -> URLSessionDataTask {
         let url = urlInfo.url
         let request = requestInfo.requests(url: url, method: method)
-        
+
 #if DEBUG
         print(request.cURL())
 #endif
+
         return service.request(request: request,
                                completion: completion)
     }
