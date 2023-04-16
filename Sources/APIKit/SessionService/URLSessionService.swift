@@ -46,8 +46,6 @@ struct URLSessionService: URLSessionServicable {
             }
         }
 
-        dataTask.resume()
-
         return dataTask
     }
 }

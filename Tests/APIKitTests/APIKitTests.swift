@@ -17,4 +17,54 @@ final class APIKitTests: XCTestCase {
         XCTAssertEqual(url,
                        "https://httpbin.org:80/get?hello=world")
     }
+    
+    func testStubAPI() async {
+        do {
+            let result = await withCheckedContinuation { continuation in
+                let errorService = ErrorSessionDataTaskService1()
+                _ = StubAPI.Get()._request(service: URLSessionService(errorService),
+                                           completion: {
+                    continuation.resume(returning: $0)
+                })
+            }
+            print(result)
+            XCTAssertNil(try? result.get())
+        }
+
+        do {
+            let result = await withCheckedContinuation { continuation in
+                let errorService = ErrorSessionDataTaskService2()
+                _ = StubAPI.Get()._request(service: URLSessionService(errorService),
+                                           completion: {
+                    continuation.resume(returning: $0)
+                })
+            }
+            print(result)
+            XCTAssertNil(try? result.get())
+        }
+
+        do {
+            let result = await withCheckedContinuation { continuation in
+                let errorService = ErrorSessionDataTaskService3()
+                _ = StubAPI.Get()._request(service: URLSessionService(errorService),
+                                           completion: {
+                    continuation.resume(returning: $0)
+                })
+            }
+            print(result)
+            XCTAssertNil(try? result.get())
+        }
+
+        do {
+            let result = await withCheckedContinuation { continuation in
+                let errorService = ErrorSessionDataTaskService4()
+                _ = StubAPI.Get()._request(service: URLSessionService(errorService),
+                                           completion: {
+                    continuation.resume(returning: $0)
+                })
+            }
+            print(result)
+            XCTAssertNil(try? result.get())
+        }
+    }
 }

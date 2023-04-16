@@ -15,9 +15,14 @@ struct SessionDataTaskService: SessionDataTaskServicable {
     func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, Int?, Error?) -> Void) -> URLSessionDataTask {
         let session = URLSession.shared
 
-        return session.dataTask(with: request, completionHandler: { data, response, error in
+        let dataTask = session.dataTask(with: request,
+                                        completionHandler: { data, response, error in
             let statusCode = (response as? HTTPURLResponse)?.statusCode
             completionHandler(data, statusCode, error)
         })
+
+        dataTask.resume()
+
+        return dataTask
     }
 }
